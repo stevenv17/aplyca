@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -16,21 +17,25 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(name="id", type="integer")
+     * @Groups({"serialize"})
      */
     private $id;
 
     /**
-     * @ORM\Column(name="email", type="string", length=180, unique=true)
+     * @ORM\Column(name="email", type="string", length=128, unique=true)
+     * @Groups({"serialize"})
      */
     private $email;
 
     /**
-     * @ORM\Column(name="name", type="string", length=180, unique=true)
+     * @ORM\Column(name="name", type="string", length=128)
+     * @Groups({"serialize"})
      */
     private $name;
 
     /**
      * @ORM\Column(name="roles", type="json")
+     * @Groups({"serialize"})
      */
     private $roles = [];
 

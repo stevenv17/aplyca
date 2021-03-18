@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block body %}
+    <body>
+    <div id="app">
+        <template>
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="Home" name="first">
+                    <a v-if="is_logged" href="/logout">logout</a>
+                </el-tab-pane>
+                <el-tab-pane label="Blog" name="second">
+
+                    <el-row v-if="is_logged">
+                        <el-button @click="openPostForm(undefined)" type="primary" icon="el-icon-circle-plus" circle></el-button>
+                    </el-row>
+
+                    <el-row> <h1>${post_selected.title}</h1> </el-row>
+                    <el-row>
+                        <el-col :span="4">
+                            <div v-for="post in posts">
+                                <span v-on:click="selectPost(post)"> ${ post.title } </span>
+                                <el-button v-if="is_logged && current_user.id == post.author.id" @click="openPostForm(post.id)" type="primary" size="mini" icon="el-icon-edit" circle></el-button>
+                                <br> <br>
+                            </div>
+                        </el-col>
+                        <el-col :span="12">
+                            <img width="100" height="100" src="https://i.pinimg.com/originals/ca/76/0b/ca760b70976b52578da88e06973af542.jpg" />
+                            <br> <br>
+                            <span>
+                                ${post_selected.author.name} / ${formatDate(post_selected.date)}
+                            </span>
+                            <br> <br>
+                            <span>
+                                ${post_selected.description}
+                            </span>
+                        </el-col>
+                    </el-row>
+                </el-tab-pane>
+                <el-tab-pane label="Contact" name="third">
+                    <h1>Contact</h1>
+                    <br><br>
+                    <el-form :label-position="labelPosition" label-width="100px">
+                        <el-form-item label="Name">
+                            <el-input v-model="contact_form.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Email">
+                            <el-input v-model="contact_form.email"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Message">
+                            <el-input type="textarea" v-model="contact_form.message"></el-input>
+                        </el-form-item>
+                        <el-button type="primary" @click="sendContact">Submit</el-button>
+                    </el-form>
+                </el-tab-pane>
+
+                <el-tab-pane label="New user" name="fourth">
+                    <h1>New User</h1>
+                    <br><br>
+                    <el-form :label-position="labelPosition" label-width="100px">
+                        <el-form-item label="Name">
+                            <el-input v-model="user_form.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Email">
+                            <el-input v-model="user_form.email"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Password">
+                            <el-input v-model="user_form.password" show-password></el-input>
+                        </el-form-item>
+                        <el-button type="primary" @click="sendUser">Submit</el-button>
+                    </el-form>
+                </el-tab-pane>
+            </el-tabs>
+        </template>
+
+        <el-dialog
+            title="Add post"
+            :visible.sync="postDialogVisible"
+            width="30%"
+            center>
+            <span>
+                <el-form :label-position="labelPosition" label-width="100px" :model="post_form">
+                  <el-form-item label="Title">
+                    <el-input v-model="post_form.title"></el-input>
+                  </el-form-item>
+                  <el-form-item label="Description">
+                    <el-input v-model="post_form.description"></el-input>
+                  </el-form-item>
+                </el-form>
+            </span>
+            <span slot="footer" class="dialog-footer">
+            <el-button @click="postDialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="savePost">Confirm</el-button>
+            </span>
+        </el-dialog>
+
+    </div>
+    </body>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/blogs.js"></script>
+{% endblock %}

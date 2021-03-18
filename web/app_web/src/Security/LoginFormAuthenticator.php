@@ -75,8 +75,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        dump($user);
-        dump($credentials);
         if($credentials['password'] == $user->getPassword() && $credentials['email'] == $user->getEmail()){
             return true;
         } else {
