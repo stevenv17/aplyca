@@ -1,16 +1,2 @@
 my-database/
-###> symfony/framework-bundle ###
-web/app_web/.env.local
-web/app_web/.env.local.php
-web/app_web/.env.*.local
-web/app_web/config/secrets/prod/prod.decrypt.private.php
-web/app_web/public/bundles/
-web/app_web/var/
-web/app_web/vendor/
-###< symfony/framework-bundle ###
-
-###> symfony/phpunit-bridge ###
-web/app_web/.phpunit
-web/app_web/.phpunit.result.cache
-web/app_web/phpunit.xml
-###< symfony/phpunit-bridge ###
+/web/app_web/var/
